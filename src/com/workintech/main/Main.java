@@ -8,6 +8,7 @@ import com.workintech.model.TaskData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Main {
 
@@ -40,7 +41,7 @@ public class Main {
         TaskData newData = new TaskData();
 
         System.out.println("Hello world!");
-        List<Task> dummyData = generateDummyData(15);
+        List<Task> dummyData = generateDummyData(20);
 
         for (Task task : dummyData) {
             newData.importTasks(task);
@@ -55,10 +56,19 @@ public class Main {
         //Tüm çalışanlarının üzerindeki tasklar nelerdir ? Unassigned hariç tuttuldu.
         System.out.println(newData.getTasks("all"));
         //Her bir çalışanın üzerindeki tasklar nelerdir ?
-        System.out.println(newData.getTasks("ann"));
-        System.out.println(newData.getTasks("bob"));
-        System.out.println(newData.getTasks("carol"));
+        System.out.println("Ann "+ newData.getTasks("ann"));
+        System.out.println("Bob "+newData.getTasks("bob"));
+        System.out.println("Carol "+newData.getTasks("carol"));
+        //Herhangi bir çalışana atanması yapılmamış olan tasklar nelerdir ?
+        System.out.println("Unassigned "+newData.getTasks("unassigned"));
+        //Birden fazla çalışana atanmış task var mı ? Varsa bunlar hangileri ?
+        Set<Task> annAndBob = newData.getIntersect(newData.getTasks("ann"),newData.getTasks("bob"));
+        Set<Task> annAndCarol = newData.getIntersect(newData.getTasks("ann"),newData.getTasks("carol"));
+        Set<Task> bobAndCarol = newData.getIntersect(newData.getTasks("bob"),newData.getTasks("carol"));
 
+        System.out.println("Ann & Bob: "+annAndBob);;
+        System.out.println("Ann & Carol: "+annAndCarol);;
+        System.out.println("Bob & Carol: "+bobAndCarol);;
     }
 
 

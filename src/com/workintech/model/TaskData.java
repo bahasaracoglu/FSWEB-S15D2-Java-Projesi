@@ -10,7 +10,6 @@ public class TaskData {
     private Set<Task> annsTasks = new HashSet<>();
     private Set<Task> bobsTasks = new HashSet<>();
     private Set<Task> carolsTasks = new HashSet<>();
-
     private Set<Task> unassignedTasks = new HashSet<>();
 
     public Set<Task> getTasks(String name) {
@@ -28,6 +27,8 @@ public class TaskData {
                     setList.add(bobsTasks);
                     setList.add(carolsTasks);
                     return getUnion(setList);
+                case "unassigned":
+                    return unassignedTasks;
 
                 default:
                     System.out.println("Invalid input");
@@ -76,9 +77,6 @@ public class TaskData {
         return result;
     }
 
-    public Set<Task> getUnassigned() {
-        Set<Task> allTasks = getTasks("all");
-        return null;
-    }
+
 }
 
