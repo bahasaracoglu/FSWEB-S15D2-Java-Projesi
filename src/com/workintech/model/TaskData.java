@@ -1,12 +1,17 @@
 package com.workintech.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class TaskData {
-    private Set<Task> annsTasks;
-    private Set<Task> bobsTasks;
-    private Set<Task> carolsTasks;
+    //Şimdilik bu şekilde kalsın(bu şekilde instance oluşturmak iyi değil.)
+    private Set<Task> annsTasks = new HashSet<>();
+    private Set<Task> bobsTasks = new HashSet<>();
+    private Set<Task> carolsTasks = new HashSet<>();
+
+    private Set<Task> unassignedTasks = new HashSet<>();
 
     public Set<Task> getTasks(String name) {
         try {
@@ -18,11 +23,12 @@ public class TaskData {
                 case "carol":
                     return carolsTasks;
                 case "all":
-                    Set<Task> result = new HashSet<>();
-                    result.addAll(annsTasks);
-                    result.addAll(bobsTasks);
-                    result.addAll(carolsTasks);
-                    return result;
+                    List<Set<Task>> setList = new ArrayList<>();
+                    setList.add(annsTasks);
+                    setList.add(bobsTasks);
+                    setList.add(carolsTasks);
+                    return getUnion(setList);
+
                 default:
                     System.out.println("Invalid input");
                     return null;
@@ -33,28 +39,46 @@ public class TaskData {
         }
     }
 
-    public Set<Task> getUnion(Set[] setList) {
+    public void importTasks(Task task) {
+        switch (task.getAssignee()) {
+            case "Ann":
+                annsTasks.add(task);
+                break;
+            case "Bob":
+                bobsTasks.add(task);
+                break;
+            case "Carol":
+                carolsTasks.add(task);
+                break;
+            case "":
+                unassignedTasks.add(task);
+                break;
+        }
+    }
+
+    public Set<Task> getUnion(List<Set<Task>> setList) {
         Set<Task> result = new HashSet<>();
         for (Set<Task> set : setList) {
             result.addAll(set);
         }
-    return result;
+        return result;
     }
 
-    public Set<Task> getIntersect(Set<Task> firstSet,Set<Task> secondSet ){
+    public Set<Task> getIntersect(Set<Task> firstSet, Set<Task> secondSet) {
         Set<Task> result = new HashSet<>(firstSet);
         result.retainAll(secondSet);
         return result;
     }
-    public Set<Task> getDifference(Set<Task> firstSet,Set<Task> secondSet ){
+
+    public Set<Task> getDifference(Set<Task> firstSet, Set<Task> secondSet) {
         Set<Task> result = new HashSet<>(firstSet);
         result.removeAll(secondSet);
         return result;
     }
 
-    public Set<Task> getUnassigned(){
-       Set<Task> allTasks = getTasks("all");
-       return null;
+    public Set<Task> getUnassigned() {
+        Set<Task> allTasks = getTasks("all");
+        return null;
     }
 }
 
