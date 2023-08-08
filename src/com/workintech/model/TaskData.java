@@ -17,6 +17,12 @@ public class TaskData {
                     return bobsTasks;
                 case "carol":
                     return carolsTasks;
+                case "all":
+                    Set<Task> result = new HashSet<>();
+                    result.addAll(annsTasks);
+                    result.addAll(bobsTasks);
+                    result.addAll(carolsTasks);
+                    return result;
                 default:
                     System.out.println("Invalid input");
                     return null;
@@ -29,11 +35,26 @@ public class TaskData {
 
     public Set<Task> getUnion(Set[] setList) {
         Set<Task> result = new HashSet<>();
-        for (Set set : setList) {
+        for (Set<Task> set : setList) {
             result.addAll(set);
         }
     return result;
     }
 
+    public Set<Task> getIntersect(Set<Task> firstSet,Set<Task> secondSet ){
+        Set<Task> result = new HashSet<>(firstSet);
+        result.retainAll(secondSet);
+        return result;
+    }
+    public Set<Task> getDifference(Set<Task> firstSet,Set<Task> secondSet ){
+        Set<Task> result = new HashSet<>(firstSet);
+        result.removeAll(secondSet);
+        return result;
+    }
+
+    public Set<Task> getUnassigned(){
+       Set<Task> allTasks = getTasks("all");
+       return null;
+    }
 }
 
